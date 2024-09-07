@@ -1,22 +1,22 @@
-﻿using Microsoft.EntityFrameworkCore;
-
-using Backend.Model;
+﻿using Backend.Model;
+using Microsoft.EntityFrameworkCore;
 
 namespace Backend.Context
 {
-    public class User_DbContext : DbContext
+    public class DeliveryDbContext : DbContext
     {
-        public User_DbContext(DbContextOptions options): base()
+        public DeliveryDbContext(DbContextOptions options) : base(options)
         {
             
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-            modelBuilder.Entity<User>()
-            .HasKey(u => u.ID);
-        }
 
-        public DbSet<User> users { get; set; }
+            modelBuilder.Entity<User>()
+                .HasKey(u => u.Id);
+        }
+        public DbSet<User> users;
+
     }
 }
