@@ -15,6 +15,6 @@ namespace Backend.Model
         public required string ID_Document {  get; set; }
         public required string Date { get; set; }
 
-        public virtual required User_Types UserType { get; set; }
+        public virtual required UserTypes UserType { get; set; }
     }
 }

@@ -1,6 +1,6 @@
 ﻿namespace Backend.Model
 {
-    public class Order_Tracking
+    public class OrderTracking
     {
         public int Id { get; set; }
         public required string Date { get; set; }

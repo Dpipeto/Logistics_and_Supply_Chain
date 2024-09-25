@@ -15,8 +15,8 @@ namespace Backend.Model
         public required string Sender_Email { get; set; }
 
         public virtual required User User { get; set; }
-        public virtual required Order_Detail Detail { get; set; }
-        public virtual required Order_Status_Type Status { get; set; }
+        public virtual required OrderDetail Detail { get; set; }
+        public virtual required OrderStatusType Status { get; set; }
 
     }
 }
