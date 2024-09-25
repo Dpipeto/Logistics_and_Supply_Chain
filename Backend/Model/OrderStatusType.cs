@@ -2,7 +2,7 @@
 
 namespace Backend.Model
 {
-    public class Order_Status_Type
+    public class OrderStatusType
     {
         [Key]
         public int Id { get; set; }
