@@ -7,5 +7,6 @@ namespace Backend.Model
         [Key]
         public int Id { get; set; }
         public required string Permission {  get; set; }
+        public bool IsDeleted { get; set; } = false;
     }
 }

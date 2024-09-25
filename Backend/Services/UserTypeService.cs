@@ -12,7 +12,7 @@ namespace Backend.Services
         Task UpdateUserTypesAsync(UserTypes user_Types);
         Task SoftDeleteUserTypesAsync(int id);
     }
-    public class UserTypeService :IUserTypeService
+    public class UserTypeService : IUserTypeService
     {
         private readonly IUserTypeRepository _userTypeRepository;
 

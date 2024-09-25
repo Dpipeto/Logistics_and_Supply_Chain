@@ -6,7 +6,8 @@ namespace Backend.Model
     {
         [Key]
         public int Id { get; set; }
-        public required string Order_Date { get; set; }
-        public required string Delivery_Date { get; set; }
+        public required string OrderDate { get; set; }
+        public required string DeliveryDate { get; set; }
+        public bool IsDeleted { get; set; } = false;
     }
 }

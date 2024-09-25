@@ -6,6 +6,7 @@ namespace Backend.Model
     {
         [Key]
         public int Id { get; set; }
-        public required string Delivery_Time { get; set; }
+        public required string DeliveryTime { get; set; }
+        public bool IsDeleted {  get; set; } = false;
     }
 }

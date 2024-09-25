@@ -6,6 +6,7 @@ namespace Backend.Model
     {
         [Key]
         public int Id { get; set; }
-        public required string OrderStatus_Type { get; set; }
+        public required string OrderStatusTypes { get; set; }
+        public bool IsDeleted {  get; set; } = false;
     }
 }

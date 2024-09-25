@@ -6,13 +6,14 @@ namespace Backend.Model
     {
         [Key]
         public int Id { get; set; }
-        public required string Type_Order { get; set; }
-        public required string Package_sender { get; set; }
-        public required string Package_Receive { get; set; }
-        public required string Order_Value { get; set; }
-        public required string Sender_Address { get; set; }
-        public required string Sender_Phone { get; set; }
-        public required string Sender_Email { get; set; }
+        public required string TypeOrder { get; set; }
+        public required string Packagesender { get; set; }
+        public required string PackageReceive { get; set; }
+        public required string OrderValue { get; set; }
+        public required string SenderAddress { get; set; }
+        public required string SenderPhone { get; set; }
+        public required string SenderEmail { get; set; }
+        public bool IsDeleted { get; set; } = false;
 
         public virtual required User User { get; set; }
         public virtual required OrderDetail Detail { get; set; }

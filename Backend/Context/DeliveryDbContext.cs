@@ -22,10 +22,10 @@ namespace Backend.Context
         public DbSet<PermissionXuserType> permissionsXuser { get; set; }
         public DbSet<Permissions> permissions { get; set; }
         public DbSet<Order> orders { get; set; }
-        public DbSet<OrderDetail> orders_detail { get; set; }
-        public DbSet<OrderStatusType> orders_status { get; set; }
-        public DbSet<OrderTracking> orders_tracking { get; set; }
+        public DbSet<OrderDetail> ordersDetail { get; set; }
+        public DbSet<OrderStatusType> ordersStatus { get; set; }
+        public DbSet<OrderTracking> ordersTracking { get; set; }
         public DbSet<Dealer> dealers { get; set; }
-        public DbSet<Order_Tracking_Type> order_tracking_types { get; set; }
+        public DbSet<OrderTrackingType> orderTrackingTypes { get; set; }
     }
 }

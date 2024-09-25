@@ -7,7 +7,7 @@ namespace Backend.Model
         [Key]
         public int Id { get; set; }
         public required string UserType { get; set; }
-        public bool IsDeleted { get; set; }
+        public bool IsDeleted { get; set; } = false;
         public virtual required PermissionXuserType PermissionXuserType { get; set; }
 
     }
