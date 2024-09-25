@@ -19,45 +19,45 @@ namespace Backend.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<IEnumerable<UserTypes>>> GetAllUserTypes()
         {
-            var user_Types = await _userTypeService.GetAllUserTypesAsync();
-            return Ok(user_Types);
+            var userTypes = await _userTypeService.GetAllUserTypesAsync();
+            return Ok(userTypes);
         }
         [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<UserTypes>> GetUserTypesById(int id)
         {
-            var user_Types = await _userTypeService.GetUserTypesByIdAsync(id);
-            if (user_Types == null)
+            var userTypes = await _userTypeService.GetUserTypesByIdAsync(id);
+            if (userTypes == null)
                 return NotFound();
 
-            return Ok(user_Types);
+            return Ok(userTypes);
 
         }
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult> CreateUserTypes([FromBody] UserTypes user_Types)
+        public async Task<ActionResult> CreateUserTypes([FromBody] UserTypes userTypes)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
-            await _userTypeService.CreateUserTypesAsync(user_Types);
-            return CreatedAtAction(nameof(GetUserTypesById), new { id = user_Types.Id }, user_Types);
+            await _userTypeService.CreateUserTypesAsync(userTypes);
+            return CreatedAtAction(nameof(GetUserTypesById), new { id = userTypes.Id }, userTypes);
         }
         [HttpPut("{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> UpdateUserTypes(int id, [FromBody] UserTypes user_Types)
+        public async Task<IActionResult> UpdateUserTypes(int id, [FromBody] UserTypes userTypes)
         {
-            if (id != user_Types.Id)
+            if (id != userTypes.Id)
                 return BadRequest();
 
             var existingUserType = await _userTypeService.GetUserTypesByIdAsync(id);
             if (existingUserType == null)
                 return NotFound();
 
-            await _userTypeService.UpdateUserTypesAsync(user_Types);
+            await _userTypeService.UpdateUserTypesAsync(userTypes);
             return NoContent();
         }
         [HttpDelete]
@@ -65,8 +65,8 @@ namespace Backend.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> SoftDeleteUserTypes(int id)
         {
-            var user_Types = await _userTypeService.GetUserTypesByIdAsync(id);
-            if (user_Types == null)
+            var userTypes = await _userTypeService.GetUserTypesByIdAsync(id);
+            if (userTypes == null)
                 return NotFound();
 
             await _userTypeService.SoftDeleteUserTypesAsync(id);
