@@ -1,4 +1,5 @@
 using Backend.Context;
+using Backend.Repositories;
 using Backend.Repository;
 using Backend.Services;
 using Microsoft.EntityFrameworkCore;
@@ -11,9 +12,11 @@ builder.Services.AddDbContext<DeliveryDbContext>(options => options.UseSqlServer
 
 #region Repositories
 builder.Services.AddScoped<IUserTypeRepository, UserTypesRepository>();
+builder.Services.AddScoped<IOrderRepository, OrderRepository>();
 #endregion
 #region Services
 builder.Services.AddScoped<IUserTypeService, UserTypeService>();
+builder.Services.AddScoped<IOrderService, OrderService>();
 #endregion
 
 builder.Services.AddControllers();
