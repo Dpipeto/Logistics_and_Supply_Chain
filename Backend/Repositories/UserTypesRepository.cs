@@ -8,8 +8,8 @@ namespace Backend.Repository
     {
         Task<IEnumerable<UserTypes>> GetAllUserTypesAsync();
         Task<UserTypes?> GetUserTypesByIdAsync(int id);
-        Task CreateUserTypesAsync(UserTypes user_Types);
-        Task UpdateUserTypesAsync(UserTypes user_Types);
+        Task CreateUserTypesAsync(UserTypes userTypes);
+        Task UpdateUserTypesAsync(UserTypes userTypes);
         Task SoftDeleteUserTypesAsync(int id);
     }
     public class UserTypesRepository : IUserTypeRepository
@@ -38,9 +38,9 @@ namespace Backend.Repository
             return await _context.usersTypes
                 .FirstOrDefaultAsync(s => s.Id == id && !s.IsDeleted);
         }
-        public async Task CreateUserTypesAsync(UserTypes user_Types)
+        public async Task CreateUserTypesAsync(UserTypes userTypes)
         {
-            _context.usersTypes.Add(user_Types);
+            _context.usersTypes.Add(userTypes);
             await _context.SaveChangesAsync();
         }
 
@@ -54,9 +54,9 @@ namespace Backend.Repository
             }
         }
 
-        public async Task UpdateUserTypesAsync(UserTypes user)
+        public async Task UpdateUserTypesAsync(UserTypes userTypes)
         {
-            _context.usersTypes.Update(user);
+            _context.usersTypes.Update(userTypes);
             await _context.SaveChangesAsync();
         }
     }

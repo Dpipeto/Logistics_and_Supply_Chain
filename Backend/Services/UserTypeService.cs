@@ -28,13 +28,13 @@ namespace Backend.Services
         {
             return await _userTypeRepository.GetUserTypesByIdAsync(id);
         }
-        public async Task CreateUserTypesAsync(UserTypes user_Types)
+        public async Task CreateUserTypesAsync(UserTypes userTypes)
         {
-            await _userTypeRepository.CreateUserTypesAsync(user_Types);
+            await _userTypeRepository.CreateUserTypesAsync(userTypes);
         }
-        public async Task UpdateUserTypesAsync(UserTypes user_Types)
+        public async Task UpdateUserTypesAsync(UserTypes userTypes)
         {
-            await _userTypeRepository.UpdateUserTypesAsync(user_Types);
+            await _userTypeRepository.UpdateUserTypesAsync(userTypes);
         }
         public async Task SoftDeleteUserTypesAsync(int id)
         {
