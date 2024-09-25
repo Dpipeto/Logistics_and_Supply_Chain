@@ -46,10 +46,10 @@ namespace Backend.Repository
 
         public async Task SoftDeleteUserTypesAsync(int id)
         {
-            var user_Types = await _context.usersTypes.FindAsync(id);
-            if (user_Types != null)
+            var userTypes = await _context.usersTypes.FindAsync(id);
+            if (userTypes != null)
             {
-                user_Types.IsDeleted = true;
+                userTypes.IsDeleted = true;
                 await _context.SaveChangesAsync();
             }
         }
