@@ -4,6 +4,7 @@ namespace Backend.Model
 {
     public class User
     {
+        [Key]
         public int Id { get; set; }
         public required string First_Name { get; set; }
         public required string Last_Name { get; set; }
@@ -14,6 +15,8 @@ namespace Backend.Model
         public required string Phone { get; set; }
         public required string ID_Document {  get; set; }
         public required string Date { get; set; }
+
+        public bool IsDeleted { get; set; } = false;
 
         public virtual required UserTypes UserType { get; set; }
     }

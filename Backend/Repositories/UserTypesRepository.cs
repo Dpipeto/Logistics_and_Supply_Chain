@@ -43,6 +43,11 @@ namespace Backend.Repository
             _context.usersTypes.Add(userTypes);
             await _context.SaveChangesAsync();
         }
+        public async Task UpdateUserTypesAsync(UserTypes userTypes)
+        {
+            _context.usersTypes.Update(userTypes);
+            await _context.SaveChangesAsync();
+        }
 
         public async Task SoftDeleteUserTypesAsync(int id)
         {
@@ -52,12 +57,6 @@ namespace Backend.Repository
                 userTypes.IsDeleted = true;
                 await _context.SaveChangesAsync();
             }
-        }
-
-        public async Task UpdateUserTypesAsync(UserTypes userTypes)
-        {
-            _context.usersTypes.Update(userTypes);
-            await _context.SaveChangesAsync();
         }
     }
 }

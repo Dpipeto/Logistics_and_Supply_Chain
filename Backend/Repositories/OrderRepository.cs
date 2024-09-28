@@ -43,6 +43,11 @@ namespace Backend.Repositories
             _context.orders.Add(order);
             await _context.SaveChangesAsync();
         }
+        public async Task UpdateOrderAsync(Order order)
+        {
+            _context.orders.Update(order);
+            await _context.SaveChangesAsync();
+        }
 
         public async Task SoftDeleteOrderAsync(int id)
         {
@@ -52,12 +57,6 @@ namespace Backend.Repositories
                 order.IsDeleted = true;
                 await _context.SaveChangesAsync();
             }
-        }
-
-        public async Task UpdateOrderAsync(Order order)
-        {
-            _context.orders.Update(order);
-            await _context.SaveChangesAsync();
         }
     }
 }
