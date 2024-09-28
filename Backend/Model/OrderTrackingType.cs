@@ -1,8 +1,11 @@
-﻿namespace Backend.Model
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Backend.Model
 {
     public class OrderTrackingType
 
     {
+        [Key]
         public int Id { get; set; }
         public required string OrderTrackingTypes { get; set; }
         public bool IsDeleted { get; set; } = false;

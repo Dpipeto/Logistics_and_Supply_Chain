@@ -11,12 +11,29 @@ var ConnectionString = builder.Configuration.GetConnectionString("Connection");
 builder.Services.AddDbContext<DeliveryDbContext>(options => options.UseSqlServer(ConnectionString));
 
 #region Repositories
+builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IUserTypeRepository, UserTypesRepository>();
 builder.Services.AddScoped<IOrderRepository, OrderRepository>();
+builder.Services.AddScoped<IOrderTrackingRepository, OrderTrackingRepository>();
+builder.Services.AddScoped<IOrderTrackingTypeRepository, OrderTrackingTypeRepository>();
+builder.Services.AddScoped<IOrderStatusTypeRepository, OrderStatusTypeRepository>();
+builder.Services.AddScoped<IOrderDetailRepository, OrderDetailRepository>();
+builder.Services.AddScoped<IDealerRepository, DealerRepository>();
+builder.Services.AddScoped<IPermissionsRepository, PermissionsRepository>();
+builder.Services.AddScoped<IPermissionXuserTypeRepository, PermissionXuserTypeRepository>();
 #endregion
 #region Services
+builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IUserTypeService, UserTypeService>();
 builder.Services.AddScoped<IOrderService, OrderService>();
+builder.Services.AddScoped<IOrderTrackingService, OrderTrackingService>();
+builder.Services.AddScoped<IOrderTrackingTypeService, OrderTrackingTypeService>();
+builder.Services.AddScoped<IOrderStatusTypeService, OrderStatusTypeService>();
+builder.Services.AddScoped<IOrderDetailService, OrderDetailService>();
+builder.Services.AddScoped<IDealerService, DealerService>();
+builder.Services.AddScoped<IPermissionsService, PermissionsService>();
+builder.Services.AddScoped<IPermissionXuserTypeService, PermissionXuserTypeService>();
+
 #endregion
 
 builder.Services.AddControllers();
