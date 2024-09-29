@@ -31,8 +31,7 @@ namespace Backend.Repositories
 
         public async Task<UserHistories> GetUserHistoryByIdAsync(int id)
         {
-            return await _context.UserHistories
-                .FirstOrDefaultAsync(uh => uh.Id == id && !uh.IsDeleted);
+            return await _context.UserHistories.FirstAsync(uh => uh.Id == id && !uh.IsDeleted);
         }
 
         public async Task CreateUserHistoryAsync(UserHistories userHistory)
