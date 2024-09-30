@@ -27,5 +27,7 @@ namespace Backend.Context
         public DbSet<OrderTracking> ordersTracking { get; set; }
         public DbSet<Dealer> dealers { get; set; }
         public DbSet<OrderTrackingType> orderTrackingTypes { get; set; }
+        public DbSet<UserHistories> UserHistories { get; set; }
+
     }
 }
