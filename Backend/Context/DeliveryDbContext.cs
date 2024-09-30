@@ -28,6 +28,6 @@ namespace Backend.Context
         public DbSet<Dealer> dealers { get; set; }
         public DbSet<OrderTrackingType> orderTrackingTypes { get; set; }
         public DbSet<UserHistories> UserHistories { get; set; }
-
+        public DbSet<OrderDetailHistories> orderDetailHistories { get; set; }
     }
 }
