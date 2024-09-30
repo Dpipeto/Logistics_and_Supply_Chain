@@ -1,6 +1,7 @@
 ﻿using Backend.Context;
 using Backend.Model;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 
 namespace Backend.Repositories
 {
@@ -22,9 +23,19 @@ namespace Backend.Repositories
         }
         public async Task<IEnumerable<Dealer>> GetAllDealerAsync()
         {
-            return await _context.dealers
-               .Where(s => !s.IsDeleted)
-               .ToListAsync();
+            try
+            {
+                IEnumerable<Dealer> del = await _context.dealers
+                                                              .Where(s => !s.IsDeleted)
+                                                              .ToListAsync();
+                return del;
+            }
+            catch (Exception e)
+            {
+
+                throw;
+            }
+
         }
 
         public async Task<IEnumerable<Dealer>> GetDealerAsync()
