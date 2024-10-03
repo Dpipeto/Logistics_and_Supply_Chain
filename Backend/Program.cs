@@ -41,10 +41,6 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddScoped<IUserHistoriesRepository, UserHistoriesRepository>();
-builder.Services.AddScoped<IUserHistoriesService, UserHistoriesService>();
-
-
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

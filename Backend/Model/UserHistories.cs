@@ -7,10 +7,9 @@ namespace Backend.Model
 
         [Key]
         public int Id { get; set; }
-        public required string UserId  { get; set; }
+        public int UserId  { get; set; }
         public required string First_Name { get; set; }
         public required string Last_Name { get; set; }
-        public required string password { get; set; }
         public required string Username { get; set; }
         public required string Email { get; set; }
         public required string Password { get; set; }
@@ -21,8 +20,6 @@ namespace Backend.Model
         public required string Date { get; set; }
         public required string ModifiedDate { get; set; }
         public required string ModifiedBy { get; set; }
-        public bool IsDeleted { get; set; }
-        public virtual required User User { get; set; }
-        public virtual required UserTypes UserTypes { get; set; }
+        public required string UserTypes { get; set; }
     }
 }

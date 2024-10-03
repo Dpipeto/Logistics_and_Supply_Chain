@@ -9,6 +9,6 @@ namespace Backend.Model
         public required string OrderDate { get; set; }
         public required string DeliveryDate { get; set; }
         public bool IsDeleted { get; set; } = false;
-        public virtual required User User { get; set; }
+        public virtual required User? User { get; set; }
     }
 }
