@@ -15,7 +15,11 @@ namespace Backend.Context
 
             modelBuilder.Entity<User>()
                 .HasKey(u => u.Id);
-
+            //Builder Triggers
+            modelBuilder.Entity<Order>().ToTable(tb => tb.UseSqlOutputClause(false));
+            //modelBuilder.Entity<User>().ToTable(tb => tb.UseSqlOutputClause(false));
+            //modelBuilder.Entity<OrderDetail>().ToTable(tb => tb.UseSqlOutputClause(false));
+            //modelBuilder.Entity<OrderTracking>().ToTable(tb => tb.UseSqlOutputClause(false));
         }
         public DbSet<User> users { get; set; }
         public DbSet<UserTypes> usersTypes { get; set; }
@@ -29,5 +33,8 @@ namespace Backend.Context
         public DbSet<OrderTrackingType> orderTrackingTypes { get; set; }
         public DbSet<UserHistories> userHistories { get; set; }
         public DbSet<OrderDetailHistories> orderDetailHistories { get; set; }
+        public DbSet<OrderTrackingHistories> ordersTrackingHistories { get; set; }
+        public DbSet<OrderHistories> ordersHistories { get; set; }
+
     }
 }
