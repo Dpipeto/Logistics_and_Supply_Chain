@@ -41,12 +41,43 @@ namespace Backend.Migrations
      END
  END;
      ");
+            /// <inheritdoc />
+            /// Trigger OrderTracking
+            migrationBuilder.Sql(@"
+     CREATE OR ALTER TRIGGER trg_OrderTracking
+     ON[ordersTraking]
+     AFTER INSERT, UPDATE, DELETE
+     AS
+     BEGIN
+         SET NOCOUNT ON;
+     --If there are inserted or updated records
+         IF EXISTS(SELECT* FROM inserted)
+         BEGIN
+             INSERT INTO ordersTrackingHistories(OrderId, Date, [order], Dealer, ModifiedDate, ModifiedBy)
+                GETDATE(),
+                    CASE
+                        WHEN EXISTS(SELECT * FROM deleted) THEN 'UPDATE'
+                        ELSE 'INSERT'
+                    END
+             FROM inserted i;
+     END
+
+     -- If there are deleted records
+     IF EXISTS(SELECT * FROM deleted)
+         BEGIN
+             INSERT INTO ordersTrackingHistories(OrderId, Date, [order], Dealer, ModifiedDate, ModifiedBy)
+             SELECT d.Id, d.Date, d.OrderId, d.DealerId, GETDATE(), 'DELETE'
+                   FROM deleted d;
+     END
+ END;
+     ");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.Sql("DROP TRIGGER IF EXISTS trg_Order;");
+            migrationBuilder.Sql("DROP TRIGGER IF EXISTS trg_OrderTracking;");
         }
     }
 }
