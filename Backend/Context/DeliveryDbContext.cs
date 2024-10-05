@@ -17,8 +17,8 @@ namespace Backend.Context
                 .HasKey(u => u.Id);
             //Builder Triggers
             modelBuilder.Entity<Order>().ToTable(tb => tb.UseSqlOutputClause(false));
-            //modelBuilder.Entity<User>().ToTable(tb => tb.UseSqlOutputClause(false));
-            //modelBuilder.Entity<OrderDetail>().ToTable(tb => tb.UseSqlOutputClause(false));
+            modelBuilder.Entity<User>().ToTable(tb => tb.UseSqlOutputClause(false));
+            modelBuilder.Entity<OrderDetail>().ToTable(tb => tb.UseSqlOutputClause(false));
             modelBuilder.Entity<OrderTracking>().ToTable(tb => tb.UseSqlOutputClause(false));
         }
         public DbSet<User> users { get; set; }
