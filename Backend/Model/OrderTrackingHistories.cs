@@ -7,7 +7,7 @@ namespace Backend.Model
 
         [Key]
         public int Id { get; set; }
-        public int OrderId { get; set; }
+        public int OrderTrackingId { get; set; }
         public required string Date { get; set; }
         public required string ModifiedDate { get; set; }
         public required string ModifiedBy { get; set; }

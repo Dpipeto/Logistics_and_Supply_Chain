@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Backend.Migrations
 {
     [DbContext(typeof(DeliveryDbContext))]
-    [Migration("20241003031937_Void")]
-    partial class Void
+    [Migration("20241005004934_ordertracking")]
+    partial class ordertracking
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -111,6 +111,8 @@ namespace Backend.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("orders");
+
+                    b.HasAnnotation("SqlServer:UseSqlOutputClause", false);
                 });
 
             modelBuilder.Entity("Backend.Model.OrderDetail", b =>
@@ -273,6 +275,8 @@ namespace Backend.Migrations
                     b.HasIndex("OrderId");
 
                     b.ToTable("ordersTracking");
+
+                    b.HasAnnotation("SqlServer:UseSqlOutputClause", false);
                 });
 
             modelBuilder.Entity("Backend.Model.OrderTrackingHistories", b =>
@@ -303,7 +307,7 @@ namespace Backend.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("OrderId")
+                    b.Property<int>("OrderTrackingId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -436,6 +440,8 @@ namespace Backend.Migrations
                     b.HasIndex("UserTypeId");
 
                     b.ToTable("users");
+
+                    b.HasAnnotation("SqlServer:UseSqlOutputClause", false);
                 });
 
             modelBuilder.Entity("Backend.Model.UserHistories", b =>
@@ -488,10 +494,6 @@ namespace Backend.Migrations
 
                     b.Property<int>("UserId")
                         .HasColumnType("int");
-
-                    b.Property<string>("UserTypeId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("UserTypes")
                         .IsRequired()
