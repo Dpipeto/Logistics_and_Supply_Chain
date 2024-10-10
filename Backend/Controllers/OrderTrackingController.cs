@@ -37,28 +37,40 @@ namespace Backend.Controllers
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult> CreateOrderTracking([FromBody] OrderTracking orderTracking)
+        public async Task<ActionResult> CreateOrderTracking(string date, int orderId, int dealerId)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
-            await _OrderTrackingService.CreateOrderTrackingAsync(orderTracking);
-            return CreatedAtAction(nameof(GetOrderTrackingById), new { id = orderTracking.Id }, orderTracking);
+            try
+            {
+                await _OrderTrackingService.CreateOrderTrackingAsync(date, orderId, dealerId);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(404, ex.Message); ;
+            }
+
+
+            return StatusCode(StatusCodes.Status201Created, "Dealer created succesfully");
         }
         [HttpPut("{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> UpdateOrderTracking(int id, [FromBody] OrderTracking orderTracking)
+        public async Task<IActionResult> UpdateOrderTracking(int id, string date, int orderId, int dealerId)
         {
-            if (id != orderTracking.Id)
-                return BadRequest();
-
             var existingOrderTracking = await _OrderTrackingService.GetOrderTrackingByIdAsync(id);
             if (existingOrderTracking == null)
                 return NotFound();
-
-            await _OrderTrackingService.UpdateOrderTrackingAsync(orderTracking);
-            return NoContent();
+            try
+            {
+                await _OrderTrackingService.UpdateOrderTrackingAsync(id, date, orderId, dealerId);
+                return StatusCode(StatusCodes.Status200OK, ("Updated Successfully"));
+            }
+            catch (Exception e)
+            {
+                return StatusCode(404, e.Message);
+            }
         }
         [HttpDelete]
         [ProducesResponseType(StatusCodes.Status204NoContent)]

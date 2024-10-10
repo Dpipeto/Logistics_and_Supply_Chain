@@ -37,28 +37,41 @@ namespace Backend.Controllers
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult> CreateOrder([FromBody] Order order)
+        public async Task<ActionResult> CreateOrder(string typeOrder, string packageSender, string packageReceive, string orderValue, string senderAddress, string senderPhone, string senderEmail, int userId, int orderDetailId, int orderStatusTypeId)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
-            await _OrderService.CreateOrderAsync(order);
-            return CreatedAtAction(nameof(GetOrderById), new { id = order.Id }, order);
+            try
+            {
+                await _OrderService.CreateOrderAsync(typeOrder, packageSender, packageReceive, orderValue, senderAddress, senderPhone, senderEmail, userId, orderDetailId, orderStatusTypeId);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(404, ex.Message); ;
+            }
+
+
+            return StatusCode(StatusCodes.Status201Created, "Order created succesfully");
         }
         [HttpPut("{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> UpdateOrder(int id, [FromBody] Order order)
+        public async Task<IActionResult> UpdateOrder(int id, string typeOrder, string packageSender, string packageReceive, string orderValue, string senderAddress, string senderPhone, string senderEmail, int userId, int orderDetailId, int orderStatusTypeId)
         {
-            if (id != order.Id)
-                return BadRequest();
-
             var existingOrder = await _OrderService.GetOrderByIdAsync(id);
             if (existingOrder == null)
                 return NotFound();
 
-            await _OrderService.UpdateOrderAsync(order);
-            return NoContent();
+            try
+            {
+                await _OrderService.UpdateOrderAsync(id, typeOrder, packageSender, packageReceive, orderValue, senderAddress, senderPhone, senderEmail, userId, orderDetailId, orderStatusTypeId);
+                return StatusCode(StatusCodes.Status200OK, ("Updated Successfully"));
+            }
+            catch (Exception e)
+            {
+                return StatusCode(404, e.Message);
+            }
         }
         [HttpDelete]
         [ProducesResponseType(StatusCodes.Status204NoContent)]

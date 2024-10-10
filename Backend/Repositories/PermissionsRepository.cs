@@ -9,8 +9,8 @@ namespace Backend.Repositories
     {
         Task<IEnumerable<Permissions>> GetAllPermissionsAsync();
         Task<Permissions?> GetPermissionsByIdAsync(int id);
-        Task CreatePermissionsAsync(Permissions permissions);
-        Task UpdatePermissionsAsync(Permissions permissions);
+        Task CreatePermissionsAsync(string permission);
+        Task UpdatePermissionsAsync(int id, string permission);
         Task SoftDeletePermissionsAsync(int id);
     }
     public class PermissionsRepository : IPermissionsRepository
@@ -39,15 +39,30 @@ namespace Backend.Repositories
             return await _context.permissions
                 .FirstOrDefaultAsync(s => s.Id == id && !s.IsDeleted);
         }
-        public async Task CreatePermissionsAsync(Permissions permissions)
+        public async Task CreatePermissionsAsync(string permission)
         {
+            var permissions = new Permissions
+            {
+                Permission = permission
+            };
+
             _context.permissions.Add(permissions);
             await _context.SaveChangesAsync();
         }
-        public async Task UpdatePermissionsAsync(Permissions permissions)
+        public async Task UpdatePermissionsAsync(int id, string permission)
         {
-            _context.permissions.Update(permissions);
-            await _context.SaveChangesAsync();
+            var permissions = await _context.permissions.FindAsync(id) ?? throw new Exception("Permissions not found");
+
+            permissions.Permission = permission;
+            try
+            {
+                _context.permissions.Update(permissions);
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception e)
+            {
+                throw;
+            }
         }
 
         public async Task SoftDeletePermissionsAsync(int id)

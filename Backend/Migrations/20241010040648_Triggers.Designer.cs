@@ -12,15 +12,15 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Backend.Migrations
 {
     [DbContext(typeof(DeliveryDbContext))]
-    [Migration("20241005021913_void")]
-    partial class @void
+    [Migration("20241010040648_Triggers")]
+    partial class Triggers
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.8")
+                .HasAnnotation("ProductVersion", "8.0.10")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -356,13 +356,14 @@ namespace Backend.Migrations
                     b.Property<int>("PermissionsId")
                         .HasColumnType("int");
 
-                    b.Property<string>("PermissionsXuserType")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("UserTypesId")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
                     b.HasIndex("PermissionsId");
+
+                    b.HasIndex("UserTypesId");
 
                     b.ToTable("permissionsXuser");
                 });
@@ -521,16 +522,11 @@ namespace Backend.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
-                    b.Property<int>("PermissionXuserTypeId")
-                        .HasColumnType("int");
-
                     b.Property<string>("UserType")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("PermissionXuserTypeId");
 
                     b.ToTable("usersTypes");
                 });
@@ -609,7 +605,15 @@ namespace Backend.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("Backend.Model.UserTypes", "UserTypes")
+                        .WithMany()
+                        .HasForeignKey("UserTypesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Permissions");
+
+                    b.Navigation("UserTypes");
                 });
 
             modelBuilder.Entity("Backend.Model.User", b =>
@@ -621,17 +625,6 @@ namespace Backend.Migrations
                         .IsRequired();
 
                     b.Navigation("UserType");
-                });
-
-            modelBuilder.Entity("Backend.Model.UserTypes", b =>
-                {
-                    b.HasOne("Backend.Model.PermissionXuserType", "PermissionXuserType")
-                        .WithMany()
-                        .HasForeignKey("PermissionXuserTypeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("PermissionXuserType");
                 });
 #pragma warning restore 612, 618
         }

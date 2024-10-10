@@ -7,9 +7,10 @@ namespace Backend.Services
     {
         Task<IEnumerable<PermissionXuserType>> GetAllPermissionXuserTypeAsync();
         Task<PermissionXuserType?> GetPermissionXuserTypeByIdAsync(int id);
-        Task CreatePermissionXuserTypeAsync(PermissionXuserType permissionXuserType);
-        Task UpdatePermissionXuserTypeAsync(PermissionXuserType permissionXuserType);
+        Task CreatePermissionXuserTypeAsync(int userTypesId, int permissionsId);
+        Task UpdatePermissionXuserTypeAsync(int id, int userTypesId, int permissionsId);
         Task SoftDeletePermissionXuserTypeAsync(int id);
+        Task<bool> HasPermissionAsync(int userTypesId, int permissionsId);
     }
     public class PermissionXuserTypeService : IPermissionXuserTypeService
     {
@@ -27,17 +28,38 @@ namespace Backend.Services
         {
             return await _PermissionXuserTypeRepository.GetPermissionXuserTypeByIdAsync(id);
         }
-        public async Task CreatePermissionXuserTypeAsync(PermissionXuserType permissionXuserType)
+        public async Task CreatePermissionXuserTypeAsync(int userTypesId, int permissionsId)
         {
-            await _PermissionXuserTypeRepository.CreatePermissionXuserTypeAsync(permissionXuserType);
+            await _PermissionXuserTypeRepository.CreatePermissionXuserTypeAsync(userTypesId, permissionsId);
         }
-        public async Task UpdatePermissionXuserTypeAsync(PermissionXuserType permissionXuserType)
+        public async Task UpdatePermissionXuserTypeAsync(int id, int userTypesId, int permissionsId)
         {
-            await _PermissionXuserTypeRepository.UpdatePermissionXuserTypeAsync(permissionXuserType);
+            try
+            {
+                await _PermissionXuserTypeRepository.UpdatePermissionXuserTypeAsync(id, userTypesId, permissionsId);
+
+            }
+            catch (Exception e)
+            {
+
+                throw;
+
+            }
         }
         public async Task SoftDeletePermissionXuserTypeAsync(int id)
         {
             await _PermissionXuserTypeRepository.SoftDeletePermissionXuserTypeAsync(id);
+        }
+        public async Task<bool> HasPermissionAsync(int userTypesId, int permissionsId)
+        {
+            try
+            {
+                return await _PermissionXuserTypeRepository.HasPermissionAsync(userTypesId, permissionsId);
+            }
+            catch (Exception e)
+            {
+                throw;
+            }
         }
     }
 }

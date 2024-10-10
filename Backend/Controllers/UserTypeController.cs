@@ -2,6 +2,7 @@
 using Backend.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Security;
 
 namespace Backend.Controllers
 {
@@ -37,28 +38,39 @@ namespace Backend.Controllers
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult> CreateUserTypes([FromBody] UserTypes userTypes)
+        public async Task<ActionResult> CreateUserTypes(string usertype)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
-            await _userTypeService.CreateUserTypesAsync(userTypes);
-            return CreatedAtAction(nameof(GetUserTypesById), new { id = userTypes.Id }, userTypes);
+            try
+            {
+                await _userTypeService.CreateUserTypesAsync(usertype);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(404, ex.Message); ;
+            }
+            return StatusCode(StatusCodes.Status201Created, "user Type created succesfully");
         }
         [HttpPut("{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> UpdateUserTypes(int id, [FromBody] UserTypes userTypes)
+        public async Task<IActionResult> UpdateUserTypes(int id, string usertype)
         {
-            if (id != userTypes.Id)
-                return BadRequest();
-
             var existingUserType = await _userTypeService.GetUserTypesByIdAsync(id);
             if (existingUserType == null)
                 return NotFound();
 
-            await _userTypeService.UpdateUserTypesAsync(userTypes);
-            return NoContent();
+            try
+            {
+                await _userTypeService.UpdateUserTypesAsync(id, usertype);
+                return StatusCode(StatusCodes.Status200OK, ("Updated Successfully"));
+            }
+            catch (Exception e)
+            {
+                return StatusCode(404, e.Message);
+            }
         }
         [HttpDelete]
         [ProducesResponseType(StatusCodes.Status204NoContent)]

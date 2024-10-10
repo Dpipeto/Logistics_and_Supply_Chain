@@ -8,8 +8,8 @@ namespace Backend.Repositories
     {
         Task<IEnumerable<OrderStatusType>> GetAllOrderStatusTypeAsync();
         Task<OrderStatusType?> GetOrderStatusTypeByIdAsync(int id);
-        Task CreateOrderStatusTypeAsync(OrderStatusType orderStatusType);
-        Task UpdateOrderStatusTypeAsync(OrderStatusType orderStatusType);
+        Task CreateOrderStatusTypeAsync(string orderStatusType);
+        Task UpdateOrderStatusTypeAsync(int id, string orderStatusType);
         Task SoftDeleteOrderStatusTypeAsync(int id);
     }
     public class OrderStatusTypeRepository : IOrderStatusTypeRepository
@@ -38,15 +38,29 @@ namespace Backend.Repositories
             return await _context.ordersStatus
                 .FirstOrDefaultAsync(s => s.Id == id && !s.IsDeleted);
         }
-        public async Task CreateOrderStatusTypeAsync(OrderStatusType orderStatus)
+        public async Task CreateOrderStatusTypeAsync(string orderStatusType)
         {
+            var orderStatus = new OrderStatusType
+            {
+                OrderStatusTypes = orderStatusType
+            };
             _context.ordersStatus.Add(orderStatus);
             await _context.SaveChangesAsync();
         }
-        public async Task UpdateOrderStatusTypeAsync(OrderStatusType orderStatus)
+        public async Task UpdateOrderStatusTypeAsync(int id, string orderStatusType)
         {
-            _context.ordersStatus.Update(orderStatus);
-            await _context.SaveChangesAsync();
+            var orderStatus = await _context.ordersStatus.FindAsync(id) ?? throw new Exception("Order Status not found");
+
+            orderStatus.OrderStatusTypes = orderStatusType;
+            try
+            {
+                _context.ordersStatus.Update(orderStatus);
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception e)
+            {
+                throw;
+            }
         }
         public async Task SoftDeleteOrderStatusTypeAsync(int id)
         {

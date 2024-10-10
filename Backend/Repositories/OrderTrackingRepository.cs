@@ -8,8 +8,8 @@ namespace Backend.Repositories
     {
         Task<IEnumerable<OrderTracking>> GetAllOrderTrackingAsync();
         Task<OrderTracking?> GetOrderTrackingByIdAsync(int id);
-        Task CreateOrderTrackingAsync(OrderTracking orderTracking);
-        Task UpdateOrderTrackingAsync(OrderTracking orderTracking);
+        Task CreateOrderTrackingAsync(string date, int orderId, int dealerId);
+        Task UpdateOrderTrackingAsync(int id, string date, int orderId, int dealerId);
         Task SoftDeleteOrderTrackingAsync(int id);
     }
     public class OrderTrackingRepository : IOrderTrackingRepository
@@ -38,15 +38,40 @@ namespace Backend.Repositories
             return await _context.ordersTracking
                 .FirstOrDefaultAsync(s => s.Id == id && !s.IsDeleted);
         }
-        public async Task CreateOrderTrackingAsync(OrderTracking orderTracking)
+        public async Task CreateOrderTrackingAsync(string date, int orderId, int dealerId)
         {
+            var order = await _context.orders.FindAsync(orderId) ?? throw new Exception("user not found");
+            var dealer = await _context.dealers.FindAsync(dealerId) ?? throw new Exception("user not found");
+
+            var orderTracking = new OrderTracking
+            {
+                Date = date,
+                Order = order,
+                Dealer = dealer,
+            };
             _context.ordersTracking.Add(orderTracking);
             await _context.SaveChangesAsync();
         }
-        public async Task UpdateOrderTrackingAsync(OrderTracking orderTracking)
+        public async Task UpdateOrderTrackingAsync(int id, string date, int orderId, int dealerId)
         {
-            _context.ordersTracking.Update(orderTracking);
-            await _context.SaveChangesAsync();
+            var orderTracking = await _context.ordersTracking.FindAsync(id) ?? throw new Exception("order Tracking not found");
+
+            var order = await _context.orders.FindAsync(orderId) ?? throw new Exception("user not found");
+            var dealer = await _context.dealers.FindAsync(dealerId) ?? throw new Exception("user not found");
+
+            orderTracking.Date = date;
+            orderTracking.Order = order;
+            orderTracking.Dealer = dealer;
+
+            try
+            {
+                _context.ordersTracking.Update(orderTracking);
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception e)
+            {
+                throw;
+            }
         }
         public async Task SoftDeleteOrderTrackingAsync(int id)
         {

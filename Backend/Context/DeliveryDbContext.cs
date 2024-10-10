@@ -13,8 +13,24 @@ namespace Backend.Context
         {
             base.OnModelCreating(modelBuilder);
 
-            modelBuilder.Entity<User>()
-                .HasKey(u => u.Id);
+            //models
+            modelBuilder.Entity<User>().HasKey(u => u.Id);
+            modelBuilder.Entity<Dealer>().HasKey(u => u.Id);
+            modelBuilder.Entity<Order>().HasKey(u => u.Id);
+            modelBuilder.Entity<OrderDetail>().HasKey(u => u.Id);
+            modelBuilder.Entity<OrderStatusType>().HasKey(u => u.Id);
+            modelBuilder.Entity<OrderTracking>().HasKey(u => u.Id);
+            modelBuilder.Entity<OrderTrackingType>().HasKey(u => u.Id);
+            modelBuilder.Entity<Permissions>().HasKey(u => u.Id);
+            modelBuilder.Entity<PermissionXuserType>().HasKey(u => u.Id);
+            modelBuilder.Entity<UserTypes>().HasKey(u => u.Id);
+
+            //history
+            modelBuilder.Entity<OrderHistories>().HasKey(u => u.Id);
+            modelBuilder.Entity<OrderTrackingHistories>().HasKey(u => u.Id);
+            modelBuilder.Entity<OrderDetailHistories>().HasKey(u => u.Id);
+            modelBuilder.Entity<UserHistories>().HasKey(u => u.Id);
+
             //Builder Triggers
             modelBuilder.Entity<Order>().ToTable(tb => tb.UseSqlOutputClause(false));
             modelBuilder.Entity<User>().ToTable(tb => tb.UseSqlOutputClause(false));

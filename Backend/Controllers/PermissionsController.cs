@@ -37,28 +37,39 @@ namespace Backend.Controllers
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult> CreatePermissions([FromBody] Permissions permissions)
+        public async Task<ActionResult> CreatePermissions(string permission)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
-            await _PermissionsService.CreatePermissionsAsync(permissions);
-            return CreatedAtAction(nameof(GetPermissionsById), new { id = permissions.Id }, permissions);
+            try
+            {
+                await _PermissionsService.CreatePermissionsAsync(permission);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(404, ex.Message); ;
+            }
+            return StatusCode(StatusCodes.Status201Created, "Permission created succesfully");
         }
         [HttpPut("{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> UpdatePermissions(int id, [FromBody] Permissions permissions)
+        public async Task<IActionResult> UpdatePermissions(int id, string permission)
         {
-            if (id != permissions.Id)
-                return BadRequest();
-
             var existingPermissions = await _PermissionsService.GetPermissionsByIdAsync(id);
             if (existingPermissions == null)
                 return NotFound();
 
-            await _PermissionsService.UpdatePermissionsAsync(permissions);
-            return NoContent();
+            try
+            {
+                await _PermissionsService.UpdatePermissionsAsync(id, permission);
+                return StatusCode(StatusCodes.Status200OK, ("Updated Successfully"));
+            }
+            catch (Exception e)
+            {
+                return StatusCode(404, e.Message);
+            }
         }
         [HttpDelete]
         [ProducesResponseType(StatusCodes.Status204NoContent)]

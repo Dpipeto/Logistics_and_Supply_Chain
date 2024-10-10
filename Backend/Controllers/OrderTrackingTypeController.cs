@@ -2,6 +2,7 @@
 using Backend.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Backend.Controllers
 {
@@ -37,28 +38,40 @@ namespace Backend.Controllers
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult> CreateOrderTrackingType([FromBody] OrderTrackingType orderTrackingType)
+        public async Task<ActionResult> CreateOrderTrackingType(string ordertrackingType, int orderTrackingId)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
-            await _OrderTrackingTypeService.CreateOrderTrackingTypeAsync(orderTrackingType);
-            return CreatedAtAction(nameof(GetOrderTrackingTypeById), new { id = orderTrackingType.Id }, orderTrackingType);
+            try
+            {
+                await _OrderTrackingTypeService.CreateOrderTrackingTypeAsync(ordertrackingType, orderTrackingId);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(404, ex.Message); ;
+            }
+
+
+            return StatusCode(StatusCodes.Status201Created, "Order Tracking Type created succesfully");
         }
         [HttpPut("{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> UpdateOrderTrackingType(int id, [FromBody] OrderTrackingType orderTrackingType)
+        public async Task<IActionResult> UpdateOrderTrackingType(int id, string ordertrackingType, int orderTrackingId)
         {
-            if (id != orderTrackingType.Id)
-                return BadRequest();
-
             var existingOrderTrackingType = await _OrderTrackingTypeService.GetOrderTrackingTypeByIdAsync(id);
             if (existingOrderTrackingType == null)
                 return NotFound();
-
-            await _OrderTrackingTypeService.UpdateOrderTrackingTypeAsync(orderTrackingType);
-            return NoContent();
+            try
+            {
+                await _OrderTrackingTypeService.UpdateOrderTrackingTypeAsync(id, ordertrackingType, orderTrackingId);
+                return StatusCode(StatusCodes.Status200OK, ("Updated Successfully"));
+            }
+            catch (Exception e)
+            {
+                return StatusCode(404, e.Message);
+            }
         }
         [HttpDelete]
         [ProducesResponseType(StatusCodes.Status204NoContent)]

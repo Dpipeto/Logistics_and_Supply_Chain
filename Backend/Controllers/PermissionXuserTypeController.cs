@@ -34,31 +34,57 @@ namespace Backend.Controllers
             return Ok(permissionXuserType);
 
         }
+        // validate if a user has permission
+        [HttpGet("validate")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        public async Task<ActionResult> ValidatePermission(int userTypesId, int permissionsId)
+        {
+            bool hasPermission = await _PermissionXuserTypeService.HasPermissionAsync(userTypesId, permissionsId);
+
+            if (hasPermission)
+            {
+                return Ok(new { Message = "User has the required permission." });
+            }
+
+            return StatusCode(StatusCodes.Status403Forbidden, "User does not have the required permission.");
+        }
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult> CreatePermissionXuserType([FromBody] PermissionXuserType permissionXuserType)
+        public async Task<ActionResult> CreatePermissionXuserType(int userTypesId, int permissionsId)
         {
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
-            await _PermissionXuserTypeService.CreatePermissionXuserTypeAsync(permissionXuserType);
-            return CreatedAtAction(nameof(GetPermissionXuserTypeById), new { id = permissionXuserType.Id }, permissionXuserType);
+            if (!ModelState.IsValid) return BadRequest(ModelState);
+
+            try
+            {
+                await _PermissionXuserTypeService.CreatePermissionXuserTypeAsync(userTypesId, permissionsId);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(404, ex.Message); ;
+            }
+
+            return StatusCode(StatusCodes.Status201Created, "Permission UserType created successfully.");
         }
         [HttpPut("{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> UpdatePermissionXuserType(int id, [FromBody] PermissionXuserType permissionXuserType)
+        public async Task<IActionResult> UpdatePermissionXuserType(int id, int userTypesId, int permissionsId)
         {
-            if (id != permissionXuserType.Id)
-                return BadRequest();
+            var existingPermissionUserType = await _PermissionXuserTypeService.GetPermissionXuserTypeByIdAsync(id);
+            if (existingPermissionUserType == null) return NotFound();
 
-            var existingPermissionXuserType = await _PermissionXuserTypeService.GetPermissionXuserTypeByIdAsync(id);
-            if (existingPermissionXuserType == null)
-                return NotFound();
-
-            await _PermissionXuserTypeService.UpdatePermissionXuserTypeAsync(permissionXuserType);
-            return NoContent();
+            try
+            {
+                await _PermissionXuserTypeService.UpdatePermissionXuserTypeAsync(id, userTypesId, permissionsId);
+                return StatusCode(StatusCodes.Status200OK, ("Updated Successfully"));
+            }
+            catch (Exception e)
+            {
+                return StatusCode(404, e.Message);
+            }
         }
         [HttpDelete]
         [ProducesResponseType(StatusCodes.Status204NoContent)]

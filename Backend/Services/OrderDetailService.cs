@@ -7,8 +7,8 @@ namespace Backend.Services
     {
         Task<IEnumerable<OrderDetail>> GetAllOrderDetailAsync();
         Task<OrderDetail?> GetOrderDetailByIdAsync(int id);
-        Task CreateOrderDetailAsync(OrderDetail orderDetail);
-        Task UpdateOrderDetailAsync(OrderDetail orderDetail);
+        Task CreateOrderDetailAsync(string deliveryTime);
+        Task UpdateOrderDetailAsync(int id, string deliveryTime);
         Task SoftDeleteOrderDetailAsync(int id);
     }
     public class OrderDetailService : IOrderDetailService
@@ -27,13 +27,13 @@ namespace Backend.Services
         {
             return await _OrderDetailRepository.GetOrderDetailByIdAsync(id);
         }
-        public async Task CreateOrderDetailAsync(OrderDetail orderDetail)
+        public async Task CreateOrderDetailAsync(string deliveryTime)
         {
-            await _OrderDetailRepository.CreateOrderDetailAsync(orderDetail);
+            await _OrderDetailRepository.CreateOrderDetailAsync(deliveryTime);
         }
-        public async Task UpdateOrderDetailAsync(OrderDetail orderDetail)
+        public async Task UpdateOrderDetailAsync(int id, string deliveryTime)
         {
-            await _OrderDetailRepository.UpdateOrderDetailAsync(orderDetail);
+            await _OrderDetailRepository.UpdateOrderDetailAsync(id, deliveryTime);
         }
         public async Task SoftDeleteOrderDetailAsync(int id)
         {

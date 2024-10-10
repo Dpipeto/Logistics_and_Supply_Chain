@@ -2,6 +2,7 @@
 using Backend.Model;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace Backend.Repositories
 {
@@ -9,8 +10,8 @@ namespace Backend.Repositories
     {
         Task<IEnumerable<Dealer>> GetAllDealerAsync();
         Task<Dealer?> GetDealerByIdAsync(int id);
-        Task CreateDealerAsync(Dealer dealer);
-        Task UpdateDealerAsync(Dealer dealer);
+        Task CreateDealerAsync(string orderDate, string deliveryDate, int userId);
+        Task UpdateDealerAsync(int id, string orderDate, string deliveryDate, int userId);
         Task SoftDeleteDealerAsync(int id);
     }
     public class DealerRepository : IDealerRepository
@@ -49,15 +50,37 @@ namespace Backend.Repositories
             return await _context.dealers
                 .FirstOrDefaultAsync(s => s.Id == id && !s.IsDeleted);
         }
-        public async Task CreateDealerAsync(Dealer dealer)
+        public async Task CreateDealerAsync(string orderDate, string deliveryDate, int userId)
         {
-            _context.dealers.Add(dealer);
+            var user = await _context.users.FindAsync(userId) ?? throw new Exception("user not found");
+
+            var dealer = new Dealer
+            {
+                OrderDate = orderDate,
+                DeliveryDate = deliveryDate,
+                User = user,
+            };
+            await _context.dealers.AddAsync(dealer);
             await _context.SaveChangesAsync();
         }
-        public async Task UpdateDealerAsync(Dealer dealer)
+        public async Task UpdateDealerAsync(int id, string orderDate, string deliveryDate, int userId)
         {
-            _context.dealers.Update(dealer);
-            await _context.SaveChangesAsync();
+            var dealer = await _context.dealers.FindAsync(id) ?? throw new Exception("Dealer not found");
+
+            var user = await _context.users.FindAsync(userId) ?? throw new Exception("user not found");
+
+            dealer.OrderDate = orderDate;
+            dealer.DeliveryDate = deliveryDate;
+            dealer.User = user;
+            try
+            {
+                _context.dealers.Update(dealer);
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception e)
+            {
+                throw;
+            }
         }
 
         public async Task SoftDeleteDealerAsync(int id)

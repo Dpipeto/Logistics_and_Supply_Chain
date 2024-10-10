@@ -7,8 +7,8 @@ namespace Backend.Services
     {
         Task<IEnumerable<Permissions>> GetAllPermissionsAsync();
         Task<Permissions?> GetPermissionsByIdAsync(int id);
-        Task CreatePermissionsAsync(Permissions permissions);
-        Task UpdatePermissionsAsync(Permissions permissions);
+        Task CreatePermissionsAsync(string permission);
+        Task UpdatePermissionsAsync(int id, string permission);
         Task SoftDeletePermissionsAsync(int id);
     }
     public class PermissionsService : IPermissionsService
@@ -27,13 +27,13 @@ namespace Backend.Services
         {
             return await _PermissionsRepository.GetPermissionsByIdAsync(id);
         }
-        public async Task CreatePermissionsAsync(Permissions permissions)
+        public async Task CreatePermissionsAsync(string permission)
         {
-            await _PermissionsRepository.CreatePermissionsAsync(permissions);
+            await _PermissionsRepository.CreatePermissionsAsync(permission);
         }
-        public async Task UpdatePermissionsAsync(Permissions permissions)
+        public async Task UpdatePermissionsAsync(int id, string permission)
         {
-            await _PermissionsRepository.UpdatePermissionsAsync(permissions);
+            await _PermissionsRepository.UpdatePermissionsAsync(id, permission);
         }
         public async Task SoftDeletePermissionsAsync(int id)
         {
