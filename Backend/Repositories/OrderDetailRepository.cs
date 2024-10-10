@@ -8,8 +8,8 @@ namespace Backend.Repositories
     {
         Task<IEnumerable<OrderDetail>> GetAllOrderDetailAsync();
         Task<OrderDetail?> GetOrderDetailByIdAsync(int id);
-        Task CreateOrderDetailAsync(OrderDetail orderDetail);
-        Task UpdateOrderDetailAsync(OrderDetail orderDetail);
+        Task CreateOrderDetailAsync(string deliveryTime);
+        Task UpdateOrderDetailAsync(int id, string deliveryTime);
         Task SoftDeleteOrderDetailAsync(int id);
     }
     public class OrderDetailRepository : IOrderDetailRepository
@@ -38,15 +38,30 @@ namespace Backend.Repositories
             return await _context.ordersDetail
                 .FirstOrDefaultAsync(s => s.Id == id && !s.IsDeleted);
         }
-        public async Task CreateOrderDetailAsync(OrderDetail orderDetail)
+        public async Task CreateOrderDetailAsync(string deliveryTime)
         {
+            var orderDetail = new OrderDetail
+            {
+                DeliveryTime = deliveryTime
+            };
+
             _context.ordersDetail.Add(orderDetail);
             await _context.SaveChangesAsync();
         }
-        public async Task UpdateOrderDetailAsync(OrderDetail orderDetail)
+        public async Task UpdateOrderDetailAsync(int id, string deliveryTime)
         {
-            _context.ordersDetail.Update(orderDetail);
-            await _context.SaveChangesAsync();
+            var orderDetail = await _context.ordersDetail.FindAsync(id) ?? throw new Exception("Order Detail not found");
+
+            orderDetail.DeliveryTime = deliveryTime;
+            try
+            {
+                _context.ordersDetail.Update(orderDetail);
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception e)
+            {
+                throw;
+            }
         }
 
         public async Task SoftDeleteOrderDetailAsync(int id)

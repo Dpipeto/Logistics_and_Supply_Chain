@@ -7,8 +7,8 @@ namespace Backend.Services
     {
         Task<IEnumerable<OrderStatusType>> GetAllOrderStatusTypeAsync();
         Task<OrderStatusType?> GetOrderStatusTypeByIdAsync(int id);
-        Task CreateOrderStatusTypeAsync(OrderStatusType orderStatusType);
-        Task UpdateOrderStatusTypeAsync(OrderStatusType orderStatusType);
+        Task CreateOrderStatusTypeAsync(string orderStatusType);
+        Task UpdateOrderStatusTypeAsync(int id, string orderStatusType);
         Task SoftDeleteOrderStatusTypeAsync(int id);
     }
     public class OrderStatusTypeService : IOrderStatusTypeService
@@ -27,13 +27,13 @@ namespace Backend.Services
         {
             return await _OrderStatusTypeRepository.GetOrderStatusTypeByIdAsync(id);
         }
-        public async Task CreateOrderStatusTypeAsync(OrderStatusType orderStatus)
+        public async Task CreateOrderStatusTypeAsync(string orderStatusType)
         {
-            await _OrderStatusTypeRepository.CreateOrderStatusTypeAsync(orderStatus);
+            await _OrderStatusTypeRepository.CreateOrderStatusTypeAsync(orderStatusType);
         }
-        public async Task UpdateOrderStatusTypeAsync(OrderStatusType orderStatus)
+        public async Task UpdateOrderStatusTypeAsync(int id, string orderStatusType)
         {
-            await _OrderStatusTypeRepository.UpdateOrderStatusTypeAsync(orderStatus);
+            await _OrderStatusTypeRepository.UpdateOrderStatusTypeAsync(id, orderStatusType);
         }
         public async Task SoftDeleteOrderStatusTypeAsync(int id)
         {

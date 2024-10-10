@@ -7,8 +7,8 @@ namespace Backend.Services
     {
         Task<IEnumerable<OrderTrackingType>> GetAllOrderTrackingTypeAsync();
         Task<OrderTrackingType?> GetOrderTrackingTypeByIdAsync(int id);
-        Task CreateOrderTrackingTypeAsync(OrderTrackingType orderTrackingType);
-        Task UpdateOrderTrackingTypeAsync(OrderTrackingType orderTrackingType);
+        Task CreateOrderTrackingTypeAsync(string ordertrackingType, int orderTrackingId);
+        Task UpdateOrderTrackingTypeAsync(int id, string ordertrackingType, int orderTrackingId);
         Task SoftDeleteOrderTrackingTypeAsync(int id);
     }
     public class OrderTrackingTypeService : IOrderTrackingTypeService
@@ -27,13 +27,13 @@ namespace Backend.Services
         {
             return await _OrderTrackingTypeRepository.GetOrderTrackingTypeByIdAsync(id);
         }
-        public async Task CreateOrderTrackingTypeAsync(OrderTrackingType orderTrackingType)
+        public async Task CreateOrderTrackingTypeAsync(string ordertrackingType, int orderTrackingId)
         {
-            await _OrderTrackingTypeRepository.CreateOrderTrackingTypeAsync(orderTrackingType);
+            await _OrderTrackingTypeRepository.CreateOrderTrackingTypeAsync(ordertrackingType, orderTrackingId);
         }
-        public async Task UpdateOrderTrackingTypeAsync(OrderTrackingType orderTrackingType)
+        public async Task UpdateOrderTrackingTypeAsync(int id, string ordertrackingType, int orderTrackingId)
         {
-            await _OrderTrackingTypeRepository.UpdateOrderTrackingTypeAsync(orderTrackingType);
+            await _OrderTrackingTypeRepository.UpdateOrderTrackingTypeAsync(id, ordertrackingType, orderTrackingId);
         }
         public async Task SoftDeleteOrderTrackingTypeAsync(int id)
         {

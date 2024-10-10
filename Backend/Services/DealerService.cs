@@ -7,8 +7,8 @@ namespace Backend.Services
     {
         Task<IEnumerable<Dealer>> GetAllDealerAsync();
         Task<Dealer?> GetDealerByIdAsync(int id);
-        Task CreateDealerAsync(Dealer dealer);
-        Task UpdateDealerAsync(Dealer dealer);
+        Task CreateDealerAsync(string orderDate, string deliveryDate, int userId);
+        Task UpdateDealerAsync(int id, string orderDate, string deliveryDate, int userId);
         Task SoftDeleteDealerAsync(int id);
     }
     public class DealerService : IDealerService
@@ -27,13 +27,13 @@ namespace Backend.Services
         {
             return await _DealerRepository.GetDealerByIdAsync(id);
         }
-        public async Task CreateDealerAsync(Dealer dealer)
+        public async Task CreateDealerAsync(string orderDate, string deliveryDate, int userId)
         {
-            await _DealerRepository.CreateDealerAsync(dealer);
+            await _DealerRepository.CreateDealerAsync(orderDate, deliveryDate, userId);
         }
-        public async Task UpdateDealerAsync(Dealer dealer)
+        public async Task UpdateDealerAsync(int id, string orderDate, string deliveryDate, int userId)
         {
-            await _DealerRepository.UpdateDealerAsync(dealer);
+            await _DealerRepository.UpdateDealerAsync(id, orderDate, deliveryDate, userId);
         }
         public async Task SoftDeleteDealerAsync(int id)
         {

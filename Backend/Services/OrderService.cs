@@ -8,8 +8,8 @@ namespace Backend.Services
     {
         Task<IEnumerable<Order>> GetAllOrderAsync();
         Task<Order?> GetOrderByIdAsync(int id);
-        Task CreateOrderAsync(Order order);
-        Task UpdateOrderAsync(Order order);
+        Task CreateOrderAsync(string typeOrder, string packageSender, string packageReceive, string orderValue, string senderAddress, string senderPhone, string senderEmail, int userId, int orderDetailId, int orderStatusTypeId);
+        Task UpdateOrderAsync(int id, string typeOrder, string packageSender, string packageReceive, string orderValue, string senderAddress, string senderPhone, string senderEmail, int userId, int orderDetailId, int orderStatusTypeId);
         Task SoftDeleteOrderAsync(int id);
     }
     public class OrderService : IOrderService
@@ -28,13 +28,13 @@ namespace Backend.Services
         {
             return await _OrderRepository.GetOrderByIdAsync(id);
         }
-        public async Task CreateOrderAsync(Order order)
+        public async Task CreateOrderAsync(string typeOrder, string packageSender, string packageReceive, string orderValue, string senderAddress, string senderPhone, string senderEmail, int userId, int orderDetailId, int orderStatusTypeId)
         {
-            await _OrderRepository.CreateOrderAsync(order);
+            await _OrderRepository.CreateOrderAsync(typeOrder, packageSender, packageReceive, orderValue, senderAddress, senderPhone, senderEmail, userId, orderDetailId, orderStatusTypeId);
         }
-        public async Task UpdateOrderAsync(Order order)
+        public async Task UpdateOrderAsync(int id, string typeOrder, string packageSender, string packageReceive, string orderValue, string senderAddress, string senderPhone, string senderEmail, int userId, int orderDetailId, int orderStatusTypeId)
         {
-            await _OrderRepository.UpdateOrderAsync(order);
+            await _OrderRepository.UpdateOrderAsync(id, typeOrder, packageSender, packageReceive, orderValue, senderAddress, senderPhone, senderEmail, userId, orderDetailId, orderStatusTypeId);
         }
         public async Task SoftDeleteOrderAsync(int id)
         {

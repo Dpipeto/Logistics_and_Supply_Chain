@@ -37,28 +37,39 @@ namespace Backend.Controllers
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult> CreateOrderStatusType([FromBody] OrderStatusType orderStatus)
+        public async Task<ActionResult> CreateOrderStatusType(string orderStatusType)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
-            await _OrderStatusTypeService.CreateOrderStatusTypeAsync(orderStatus);
-            return CreatedAtAction(nameof(GetOrderStatusTypeById), new { id = orderStatus.Id }, orderStatus);
+            try
+            {
+                await _OrderStatusTypeService.CreateOrderStatusTypeAsync(orderStatusType);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(404, ex.Message); ;
+            }
+            return StatusCode(StatusCodes.Status201Created, "Order Status created succesfully");
         }
         [HttpPut("{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> UpdateOrderStatusType(int id, [FromBody] OrderStatusType orderStatus)
+        public async Task<IActionResult> UpdateOrderStatusType(int id, string orderStatusType)
         {
-            if (id != orderStatus.Id)
-                return BadRequest();
-
             var existingOrderStatusType = await _OrderStatusTypeService.GetOrderStatusTypeByIdAsync(id);
             if (existingOrderStatusType == null)
                 return NotFound();
 
-            await _OrderStatusTypeService.UpdateOrderStatusTypeAsync(orderStatus);
-            return NoContent();
+            try
+            {
+                await _OrderStatusTypeService.UpdateOrderStatusTypeAsync(id, orderStatusType);
+                return StatusCode(StatusCodes.Status200OK, ("Updated Successfully"));
+            }
+            catch (Exception e)
+            {
+                return StatusCode(404, e.Message);
+            }
         }
         [HttpDelete]
         [ProducesResponseType(StatusCodes.Status204NoContent)]

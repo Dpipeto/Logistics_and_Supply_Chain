@@ -37,28 +37,41 @@ namespace Backend.Controllers
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult> CreateDealer([FromBody] Dealer dealer)
+        public async Task<ActionResult> CreateDealer(string orderDate, string deliveryDate, int userId)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
-            await _DealerService.CreateDealerAsync(dealer);
-            return CreatedAtAction(nameof(GetDealerById), new { id = dealer.Id }, dealer);
+            try
+            {
+                await _DealerService.CreateDealerAsync(orderDate, deliveryDate, userId);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(404, ex.Message); ;
+            }
+
+
+            return StatusCode(StatusCodes.Status201Created, "Dealer created succesfully");
         }
         [HttpPut("{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> UpdateDealer(int id, [FromBody] Dealer dealer)
+        public async Task<IActionResult> UpdateDealer(int id, string orderDate, string deliveryDate, int userId)
         {
-            if (id != dealer.Id)
-                return BadRequest();
-
             var existingDealer = await _DealerService.GetDealerByIdAsync(id);
             if (existingDealer == null)
                 return NotFound();
 
-            await _DealerService.UpdateDealerAsync(dealer);
-            return NoContent();
+            try
+            {
+                await _DealerService.UpdateDealerAsync(id, orderDate, deliveryDate, userId);
+                return StatusCode(StatusCodes.Status200OK, ("Updated Successfully"));
+            }
+            catch (Exception e)
+            {
+                return StatusCode(404, e.Message);
+            }
         }
         [HttpDelete]
         [ProducesResponseType(StatusCodes.Status204NoContent)]

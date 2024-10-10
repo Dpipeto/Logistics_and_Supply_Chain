@@ -7,8 +7,8 @@ namespace Backend.Services
     {
         Task<IEnumerable<OrderTracking>> GetAllOrderTrackingAsync();
         Task<OrderTracking?> GetOrderTrackingByIdAsync(int id);
-        Task CreateOrderTrackingAsync(OrderTracking orderTracking);
-        Task UpdateOrderTrackingAsync(OrderTracking orderTracking);
+        Task CreateOrderTrackingAsync(string date, int orderId, int dealerId);
+        Task UpdateOrderTrackingAsync(int id, string date, int orderId, int dealerId);
         Task SoftDeleteOrderTrackingAsync(int id);
     }
     public class OrderTrackingService : IOrderTrackingService
@@ -27,13 +27,13 @@ namespace Backend.Services
         {
             return await _OrderTrackingRepository.GetOrderTrackingByIdAsync(id);
         }
-        public async Task CreateOrderTrackingAsync(OrderTracking orderTracking)
+        public async Task CreateOrderTrackingAsync(string date, int orderId, int dealerId)
         {
-            await _OrderTrackingRepository.CreateOrderTrackingAsync(orderTracking);
+            await _OrderTrackingRepository.CreateOrderTrackingAsync(date, orderId, dealerId);
         }
-        public async Task UpdateOrderTrackingAsync(OrderTracking orderTracking)
+        public async Task UpdateOrderTrackingAsync(int id, string date, int orderId, int dealerId)
         {
-            await _OrderTrackingRepository.UpdateOrderTrackingAsync(orderTracking);
+            await _OrderTrackingRepository.UpdateOrderTrackingAsync(id, date, orderId, dealerId);
         }
         public async Task SoftDeleteOrderTrackingAsync(int id)
         {

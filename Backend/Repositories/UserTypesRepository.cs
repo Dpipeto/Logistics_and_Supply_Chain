@@ -8,8 +8,8 @@ namespace Backend.Repository
     {
         Task<IEnumerable<UserTypes>> GetAllUserTypesAsync();
         Task<UserTypes?> GetUserTypesByIdAsync(int id);
-        Task CreateUserTypesAsync(UserTypes userTypes);
-        Task UpdateUserTypesAsync(UserTypes userTypes);
+        Task CreateUserTypesAsync(string usertype);
+        Task UpdateUserTypesAsync(int id, string usertype);
         Task SoftDeleteUserTypesAsync(int id);
     }
     public class UserTypesRepository : IUserTypeRepository
@@ -38,15 +38,31 @@ namespace Backend.Repository
             return await _context.usersTypes
                 .FirstOrDefaultAsync(s => s.Id == id && !s.IsDeleted);
         }
-        public async Task CreateUserTypesAsync(UserTypes userTypes)
+        public async Task CreateUserTypesAsync(string usertype)
         {
+            var userTypes = new UserTypes
+            {
+                UserType = usertype,
+            };
+
             _context.usersTypes.Add(userTypes);
             await _context.SaveChangesAsync();
         }
-        public async Task UpdateUserTypesAsync(UserTypes userTypes)
+        public async Task UpdateUserTypesAsync(int id, string usertype)
         {
-            _context.usersTypes.Update(userTypes);
-            await _context.SaveChangesAsync();
+            var userTypes = await _context.usersTypes.FindAsync(id) ?? throw new Exception("User Type not found");
+
+            userTypes.UserType = usertype;
+
+            try
+            {
+                _context.usersTypes.Update(userTypes);
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception e)
+            {
+                throw;
+            }
         }
 
         public async Task SoftDeleteUserTypesAsync(int id)

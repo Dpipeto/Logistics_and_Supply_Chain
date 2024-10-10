@@ -8,8 +8,8 @@ namespace Backend.Services
     {
         Task<IEnumerable<UserTypes>> GetAllUserTypesAsync();
         Task<UserTypes?> GetUserTypesByIdAsync(int id);
-        Task CreateUserTypesAsync(UserTypes user_Types);
-        Task UpdateUserTypesAsync(UserTypes user_Types);
+        Task CreateUserTypesAsync(string usertype);
+        Task UpdateUserTypesAsync(int id, string usertype);
         Task SoftDeleteUserTypesAsync(int id);
     }
     public class UserTypeService : IUserTypeService
@@ -28,13 +28,13 @@ namespace Backend.Services
         {
             return await _userTypeRepository.GetUserTypesByIdAsync(id);
         }
-        public async Task CreateUserTypesAsync(UserTypes userTypes)
+        public async Task CreateUserTypesAsync(string usertype)
         {
-            await _userTypeRepository.CreateUserTypesAsync(userTypes);
+            await _userTypeRepository.CreateUserTypesAsync(usertype);
         }
-        public async Task UpdateUserTypesAsync(UserTypes userTypes)
+        public async Task UpdateUserTypesAsync(int id, string usertype)
         {
-            await _userTypeRepository.UpdateUserTypesAsync(userTypes);
+            await _userTypeRepository.UpdateUserTypesAsync(id, usertype);
         }
         public async Task SoftDeleteUserTypesAsync(int id)
         {
