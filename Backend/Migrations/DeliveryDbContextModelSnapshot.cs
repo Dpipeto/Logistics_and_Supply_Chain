@@ -48,7 +48,7 @@ namespace Backend.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("dealers");
+                    b.ToTable("dealers", (string)null);
                 });
 
             modelBuilder.Entity("Backend.Model.Order", b =>
@@ -107,7 +107,7 @@ namespace Backend.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("orders");
+                    b.ToTable("orders", (string)null);
 
                     b.HasAnnotation("SqlServer:UseSqlOutputClause", false);
                 });
@@ -129,7 +129,7 @@ namespace Backend.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("ordersDetail");
+                    b.ToTable("ordersDetail", (string)null);
 
                     b.HasAnnotation("SqlServer:UseSqlOutputClause", false);
                 });
@@ -159,7 +159,7 @@ namespace Backend.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("orderDetailHistories");
+                    b.ToTable("orderDetailHistories", (string)null);
                 });
 
             modelBuilder.Entity("Backend.Model.OrderHistories", b =>
@@ -223,7 +223,7 @@ namespace Backend.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("ordersHistories");
+                    b.ToTable("ordersHistories", (string)null);
                 });
 
             modelBuilder.Entity("Backend.Model.OrderStatusType", b =>
@@ -243,7 +243,7 @@ namespace Backend.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("ordersStatus");
+                    b.ToTable("ordersStatus", (string)null);
                 });
 
             modelBuilder.Entity("Backend.Model.OrderTracking", b =>
@@ -273,7 +273,7 @@ namespace Backend.Migrations
 
                     b.HasIndex("OrderId");
 
-                    b.ToTable("ordersTracking");
+                    b.ToTable("ordersTracking", (string)null);
 
                     b.HasAnnotation("SqlServer:UseSqlOutputClause", false);
                 });
@@ -311,7 +311,7 @@ namespace Backend.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("ordersTrackingHistories");
+                    b.ToTable("ordersTrackingHistories", (string)null);
                 });
 
             modelBuilder.Entity("Backend.Model.OrderTrackingType", b =>
@@ -336,7 +336,7 @@ namespace Backend.Migrations
 
                     b.HasIndex("Order_TrackingId");
 
-                    b.ToTable("orderTrackingTypes");
+                    b.ToTable("orderTrackingTypes", (string)null);
                 });
 
             modelBuilder.Entity("Backend.Model.PermissionXuserType", b =>
@@ -362,7 +362,7 @@ namespace Backend.Migrations
 
                     b.HasIndex("UserTypesId");
 
-                    b.ToTable("permissionsXuser");
+                    b.ToTable("permissionsXuser", (string)null);
                 });
 
             modelBuilder.Entity("Backend.Model.Permissions", b =>
@@ -382,7 +382,7 @@ namespace Backend.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("permissions");
+                    b.ToTable("permissions", (string)null);
                 });
 
             modelBuilder.Entity("Backend.Model.User", b =>
@@ -439,7 +439,7 @@ namespace Backend.Migrations
 
                     b.HasIndex("UserTypeId");
 
-                    b.ToTable("users");
+                    b.ToTable("users", (string)null);
 
                     b.HasAnnotation("SqlServer:UseSqlOutputClause", false);
                 });
@@ -505,7 +505,7 @@ namespace Backend.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("userHistories");
+                    b.ToTable("userHistories", (string)null);
                 });
 
             modelBuilder.Entity("Backend.Model.UserTypes", b =>
@@ -525,7 +525,7 @@ namespace Backend.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("usersTypes");
+                    b.ToTable("usersTypes", (string)null);
                 });
 
             modelBuilder.Entity("Backend.Model.Dealer", b =>

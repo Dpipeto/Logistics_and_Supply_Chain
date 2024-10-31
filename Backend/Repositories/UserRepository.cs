@@ -26,6 +26,7 @@ namespace Backend.Repositories
         {
             return await _context.users
                .Where(s => !s.IsDeleted)
+               .Include(u => u.UserType)
                .ToListAsync();
         }
 
@@ -33,6 +34,7 @@ namespace Backend.Repositories
         {
             return await _context.users
                 .Where(s => !s.IsDeleted)
+                .Include(ut => ut.UserType)
                 .ToListAsync();
         }
         public async Task<User?> GetUserByIdAsync(int id)

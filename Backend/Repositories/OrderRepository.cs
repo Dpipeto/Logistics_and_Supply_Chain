@@ -24,6 +24,9 @@ namespace Backend.Repositories
         {
             return await _context.orders
                .Where(s => !s.IsDeleted)
+               .Include(u => u.User)
+               .Include(d => d.Detail)
+               .Include(s => s.Status)
                .ToListAsync();
         }
 
@@ -31,6 +34,9 @@ namespace Backend.Repositories
         {
             return await _context.orders
                 .Where(s => !s.IsDeleted)
+                .Include(u => u.User)
+                .Include(d => d.Detail)
+                .Include(s => s.Status)
                 .ToListAsync();
         }
         public async Task<Order?> GetOrderByIdAsync(int id)

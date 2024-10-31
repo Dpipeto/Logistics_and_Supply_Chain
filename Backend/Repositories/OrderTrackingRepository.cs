@@ -24,6 +24,8 @@ namespace Backend.Repositories
         {
             return await _context.ordersTracking
                .Where(s => !s.IsDeleted)
+               .Include(d => d.Dealer)
+               .Include(o => o.Order)
                .ToListAsync();
         }
 
@@ -31,6 +33,8 @@ namespace Backend.Repositories
         {
             return await _context.ordersTracking
                 .Where(s => !s.IsDeleted)
+                .Include(d => d.Dealer)
+                .Include(o => o.Order)
                 .ToListAsync();
         }
         public async Task<OrderTracking?> GetOrderTrackingByIdAsync(int id)
