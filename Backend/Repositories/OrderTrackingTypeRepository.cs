@@ -25,6 +25,7 @@ namespace Backend.Repositories
         {
             return await _context.orderTrackingTypes
                .Where(s => !s.IsDeleted)
+               .Include(ot => ot.Order_Tracking)
                .ToListAsync();
         }
 
@@ -32,6 +33,7 @@ namespace Backend.Repositories
         {
             return await _context.orderTrackingTypes
                 .Where(s => !s.IsDeleted)
+                .Include(ot => ot.Order_Tracking)
                 .ToListAsync();
         }
         public async Task<OrderTrackingType?> GetOrderTrackingTypeByIdAsync(int id)

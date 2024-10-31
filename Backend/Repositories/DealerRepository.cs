@@ -1,8 +1,6 @@
 ﻿using Backend.Context;
 using Backend.Model;
 using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
-using System.Diagnostics;
 
 namespace Backend.Repositories
 {
@@ -28,6 +26,7 @@ namespace Backend.Repositories
             {
                 IEnumerable<Dealer> del = await _context.dealers
                                                               .Where(s => !s.IsDeleted)
+                                                              .Include(u => u.User)
                                                               .ToListAsync();
                 return del;
             }
